@@ -36,7 +36,7 @@ client.on('message', async (topic, message) => {
         console.log("rfid", rfid);
         console.log("temperature", typeof temperature);
         console.log("temperature", parseInt(temperature));
-        prisma.user.update({
+        const user = await prisma.user.update({
             where: {
                 rfid: rfid
             },
@@ -44,5 +44,6 @@ client.on('message', async (topic, message) => {
                 temperature: parseInt(temperature)
             }
         })
+        console.log("User temperature updated", user)
     }
 });
