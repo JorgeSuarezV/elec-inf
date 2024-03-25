@@ -7,9 +7,12 @@ const client = mqtt.connect(`mqtt://${ip}:1883`)
 const prisma = new PrismaClient();
 
 client.on('connect', () => {
-  console.log('Connected to MQTT broker');
+    console.log('Connected to MQTT broker');
     client.subscribe('authorization', () => {
         console.log('Subscribed to authorization topic');
+    });
+    client.subscribe('setTemp', () => {
+        console.log('Subscribed to setTemp topic');
     });
 });
 
@@ -27,7 +30,7 @@ client.on('message', async (topic, message) => {
         }
 
     }
-    if (topic === 'set_temp'){
+    if (topic === 'setTemp') {
         const rfid = message.toString().split(',')[0];
         const temperature = message.toString().split(',')[1];
         console.log(rfid, temperature);
