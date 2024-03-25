@@ -1,0 +1,14 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("postgres://postgres:postgres@localhost:5432/ei")
+}
+
+model User {
+  id          Int    @id @default(autoincrement())
+  rfid        String @unique
+  temperature Int
+}
