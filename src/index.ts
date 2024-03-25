@@ -14,15 +14,18 @@ client.on('connect', () => {
 });
 
 client.on('message', async (topic, message) => {
+    console.log(`Received message on topic ${topic}: ${message.toString()}`);
     if (topic === 'authorization') {
         const user = await prisma.user.findUnique({
             where: {
                 rfid: message.toString()
             }
         })
-        if (user) client.publish('serve', user.temperature.toString());
+        if (user) {
+            client.publish('serve', user.temperature.toString());
+            console.log("User authorized")
+        }
 
-        console.log(`Received message on topic ${topic}: ${message.toString()}`);
     }
     if (topic === 'setTemp'){
         const rfid = message.toString().split(',')[0];
@@ -35,6 +38,5 @@ client.on('message', async (topic, message) => {
                 temperature: parseInt(temperature)
             }
         })
-        console.log(`Received message on topic ${topic}: ${message.toString()}`);
     }
 });
