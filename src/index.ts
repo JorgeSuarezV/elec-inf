@@ -34,7 +34,7 @@ client.on('message', async (topic, message) => {
         const rfid = message.toString().split(',')[0];
         const temperature = message.toString().split(',')[1];
         console.log("rfid", rfid);
-        console.log("temperature", parseInt(temperature));
+        console.log("temperature", typeof temperature);
         prisma.user.update({
             where: {
                 rfid: rfid
