@@ -27,7 +27,7 @@ client.on('message', async (topic, message) => {
         }
 
     }
-    if (topic === 'setTemp'){
+    if (topic === 'set_temp'){
         const rfid = message.toString().split(',')[0];
         const temperature = message.toString().split(',')[1];
         console.log(rfid, temperature);
