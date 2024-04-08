@@ -47,7 +47,8 @@ client.on('message', async (topic, message) => {
                 rfid: rfid
             },
             data: {
-                temperature: parseInt(temperature)
+                temperature: parseInt(temperature),
+                serveCounter: {increment: 1}
             }
         })
         client.publish('temperatures_stats', temperature);
@@ -60,6 +61,12 @@ client.on('message', async (topic, message) => {
         client.publish('avg_temp', String(avgTemp._avg.temperature))
         const arg = createDateInTimezone(-3)
         client.publish('last_serve', `${arg.getDate()}/${arg.getMonth()+1}   ${arg.getHours()}:${arg.getMinutes()}:${arg.getSeconds()}`)
+        const most = await prisma.user.findFirst({
+            orderBy:{
+                serveCounter: "desc"
+            }
+        })
+        client.publish('most_servings', most.name + ": " + most.serveCounter)
     }
 });
 
