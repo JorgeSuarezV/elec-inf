@@ -41,5 +41,6 @@ client.on('message', async (topic, message) => {
                 temperature: parseInt(temperature)
             }
         })
+        client.publish('temperatures_stats', temperature);
     }
 });
