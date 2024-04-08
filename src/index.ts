@@ -48,6 +48,6 @@ client.on('message', async (topic, message) => {
             }
         })
         // @ts-ignore
-        client.publish('avg_temp', avgTemp._avg.temperature)
+        client.publish('avg_temp', String(avgTemp._avg.temperature))
     }
 });
