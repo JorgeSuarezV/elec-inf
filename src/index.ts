@@ -51,23 +51,23 @@ client.on('message', async (topic, message) => {
                 serveCounter: {increment: 1}
             }
         })
-        client.publish('temperatures_stats', temperature);
+        client.publish('temperatures_stats', temperature, {retain: true});
         const avgTemp = await prisma.user.aggregate({
             _avg: {
                 temperature: true
             }
         })
         // @ts-ignore
-        client.publish('avg_temp', String(avgTemp._avg.temperature))
+        client.publish('avg_temp', String(avgTemp._avg.temperature), {retain: true})
         const arg = createDateInTimezone(-3)
-        client.publish('last_serve', `${arg.getDate()}/${arg.getMonth()+1}   ${arg.getHours()}:${arg.getMinutes()}:${arg.getSeconds()}`)
+        client.publish('last_serve', `${arg.getDate()}/${arg.getMonth()+1}   ${arg.getHours()}:${arg.getMinutes()}:${arg.getSeconds()}`, {retain: true})
         const most = await prisma.user.findFirst({
             orderBy:{
                 serveCounter: "desc"
             }
         })
         if (!most) return
-        client.publish('most_servings', most.name + ": " + most.serveCounter)
+        client.publish('most_servings', most.name + ": " + most.serveCounter, {retain: true})
     }
 });
 
