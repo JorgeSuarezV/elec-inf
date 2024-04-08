@@ -66,6 +66,7 @@ client.on('message', async (topic, message) => {
                 serveCounter: "desc"
             }
         })
+        if (!most) return
         client.publish('most_servings', most.name + ": " + most.serveCounter)
     }
 });
