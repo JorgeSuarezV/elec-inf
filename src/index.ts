@@ -25,6 +25,13 @@ function createDateInTimezone(offset: number): Date {
     return new Date(date.getTime() + offsetInMilliseconds);
 }
 
+function a(time: number): string {
+    if (time < 10) {
+        return "0" + time
+    }
+    return String(time)
+}
+
 client.on('message', async (topic, message) => {
     console.log(`Received message on topic ${topic}: ${message.toString()}`);
     if (topic === 'authorization') {
@@ -60,7 +67,7 @@ client.on('message', async (topic, message) => {
         // @ts-ignore
         client.publish('avg_temp', String(avgTemp._avg.temperature), {retain: true})
         const arg = createDateInTimezone(-3)
-        client.publish('last_serve', `${arg.getDate()}/${arg.getMonth()+1}   ${arg.getHours()}:${arg.getMinutes()}:${arg.getSeconds()}`, {retain: true})
+        client.publish('last_serve', `${a(arg.getDate())}/${a(arg.getMonth()+1)}   ${a(arg.getHours())}:${a(arg.getMinutes())}:${a(arg.getSeconds())}`, {retain: true})
         const most = await prisma.user.findFirst({
             orderBy:{
                 serveCounter: "desc"
