@@ -59,7 +59,7 @@ client.on('message', async (topic, message) => {
         // @ts-ignore
         client.publish('avg_temp', String(avgTemp._avg.temperature))
         const arg = createDateInTimezone(-3)
-        console.log(arg)
+        console.log(arg.getUTCMonth())
         client.publish('last_serve', `${arg.getDate()}/${arg.getMonth()}   ${arg.getHours()}:${arg.getMinutes()}:${arg.getSeconds()}`)
     }
 });
