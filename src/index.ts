@@ -16,6 +16,15 @@ client.on('connect', () => {
     });
 });
 
+function createDateInTimezone(offset: number): Date {
+    // Create a new date object
+    const date = new Date();
+    // Calculate the offset in milliseconds
+    const offsetInMilliseconds = offset * 60 * 60 * 1000;
+    // Adjust the date to the specified timezone
+    return new Date(date.getTime() + offsetInMilliseconds);
+}
+
 client.on('message', async (topic, message) => {
     console.log(`Received message on topic ${topic}: ${message.toString()}`);
     if (topic === 'authorization') {
@@ -49,5 +58,9 @@ client.on('message', async (topic, message) => {
         })
         // @ts-ignore
         client.publish('avg_temp', String(avgTemp._avg.temperature))
+        const arg = createDateInTimezone(-3)
+        client.publish('last_serve', `${arg.getDay()}/${arg.getMonth()}   ${arg.getHours()}:${arg.getMinutes()}:${arg.getSeconds()}`)
     }
 });
+
+
