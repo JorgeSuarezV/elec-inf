@@ -8,8 +8,7 @@ datasource db {
 }
 
 model User {
-  id          Int     @id @default(autoincrement())
-  rfid        String  @unique
-  name        String?
-  temperature Int     @default(20)
+  id          Int    @id @default(autoincrement())
+  rfid        String @unique
+  temperature Int    @default(20)
 }
