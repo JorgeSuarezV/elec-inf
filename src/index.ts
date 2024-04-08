@@ -42,5 +42,12 @@ client.on('message', async (topic, message) => {
             }
         })
         client.publish('temperatures_stats', temperature);
+        const avgTemp = await prisma.user.aggregate({
+            _avg: {
+                temperature: true
+            }
+        })
+        // @ts-ignore
+        client.publish('avg_temp', avgTemp._avg.temperature)
     }
 });
