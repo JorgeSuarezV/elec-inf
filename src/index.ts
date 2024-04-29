@@ -3,6 +3,7 @@ import {PrismaClient} from '@prisma/client';
 
 const ip = "localhost";
 const client = mqtt.connect(`mqtt://${ip}:1883`)
+console.log(process.env.url)
 
 const prisma = new PrismaClient({datasourceUrl: process.env.url});
 
