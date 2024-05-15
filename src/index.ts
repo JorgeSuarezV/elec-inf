@@ -5,7 +5,7 @@ const ip = "localhost";
 const client = mqtt.connect(`mqtt://${ip}:1883`)
 console.log(process.env.url)
 
-const prisma = new PrismaClient({datasourceUrl: process.env.url});
+const prisma = new PrismaClient({datasourceUrl: `postgresql://postgres:postgres@${process.env.url}:5432/ei`});
 
 client.on('connect', () => {
     console.log('Connected to MQTT broker');
